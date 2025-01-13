@@ -1,0 +1,114 @@
+serviceMaps:
+  serviceName: adv-services
+  mappings:
+    - version: 1.0
+      name: AdvocateClerk
+      description: Persists advocate-clerk details in the database
+      fromTopic: save-advocate-clerk
+      isTransaction: true
+      queryMaps:
+        # Insert Query - Advocate-Clerk
+        - query: |
+            INSERT INTO advocate_clerks (
+              id, tenant_id, application_number, state_regn_number,individual_id, is_active, created_by, last_modified_by, created_time, last_modified_time, additional_details
+            ) VALUES (CAST(? AS UUID), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          basePath: clerks.*
+          jsonMaps:
+            - jsonPath: $.clerks.*.id
+              type: UUID
+              dbType: UUID
+            - jsonPath: $.clerks.*.tenantId
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.applicationNumber
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.stateRegnNumber
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.individualId
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.isActive
+              type: BOOLEAN
+              dbType: BOOLEAN
+            - jsonPath: $.clerks.*.auditDetails.createdBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.auditDetails.lastModifiedBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.auditDetails.createdTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.clerks.*.auditDetails.lastModifiedTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.clerks.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+
+        # Insert Query - Documents for Each Advocate-Clerk
+        - query: |
+            INSERT INTO adv_documents (
+              id, file_store, document_type, document_uid, advocate_clerk_id, additional_details
+            ) VALUES (?, ?, ?, ?, CAST(? AS UUID), ?)
+          basePath: clerks.*.documents.*
+          jsonMaps:
+            - jsonPath: $.clerks.*.documents.*.id
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.documents.*.fileStore
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.documents.*.documentType
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.documents.*.documentUid
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks[*][?({id} in @.documents[*].id)].id
+              type: UUID
+              dbType: UUID
+            - jsonPath: $.clerks.*.documents.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+
+
+
+    - version: 1.0
+      name: AdvocateClerk
+      description: Updates advocate-clerk details in the database
+      fromTopic: update-advocate-clerk
+      isTransaction: true
+      queryMaps:
+        # update Query - Advocate-Clerk
+        - query: |
+            UPDATE advocates SET
+              last_modified_by = COALESCE(?, last_modified_by),
+              last_modified_time = COALESCE(?, last_modified_time),
+              additional_details = COALESCE(?, additional_details)
+            WHERE application_number = ?;
+          basePath: advocates.*
+          jsonMaps:
+            - jsonPath: $.clerks.*.auditDetails.lastModifiedBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.clerks.*.auditDetails.lastModifiedTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.clerks.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.clerks.*.applicationNumber
+              type: STRING
+              dbType: VARCHAR
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+{"BusinessService": [
+  {
+    "tenantId": "mh",
+    "businessService": "AD",
+    "business": "ad-services",
+    "businessServiceSla": 432000000,
+    "states": [
+      {
+        "sla": null,
+        "state": null,
+        "applicationStatus": null,
+        "docUploadRequired": true,
+        "isStartState": true,
+        "isTerminateState": false,
+        "isStateUpdatable": true,
+        "actions": [
+          {
+            "action": "REGISTER",
+            "nextState": "REGISTRATION_REQUESTED",
+            "roles": [
+              "ADVOCATE",
+              "LITIGANT"
+            ]
+          }
+        ]
+      },
+      {
+        "sla": null,
+        "state": "REGISTRATION_REQUESTED",
+        "applicationStatus": "REGISTRATION_REQUESTED",
+        "docUploadRequired": false,
+        "isStartState": false,
+        "isTerminateState": false,
+        "isStateUpdatable": false,
+        "actions": [
+          {
+            "action": "APPROVE",
+            "nextState": "USER_REGISTERED",
+            "roles": [
+              "SYSTEM",
+              "NYAY_MITRA"
+            ]
+          },
+          {
+            "action": "REJECT",
+            "nextState": "USER_REJECTED",
+            "roles": [
+              "NYAY_MITRA"
+            ]
+          }
+        ]
+      },
+      {
+        "sla": null,
+        "state": "USER_REGISTERED",
+        "applicationStatus": "USER_REGISTERED",
+        "isStateUpdatable": false,
+        "docUploadRequired": false,
+        "isStartState": false,
+        "isTerminateState": true
+      },
+      {
+        "sla": null,
+        "state": "USER_REJECTED",
+        "applicationStatus": "USER_REJECTED",
+        "isStateUpdatable": false,
+        "docUploadRequired": false,
+        "isStartState": false,
+        "isTerminateState": true
+      }
+    ]
+  }
+  ]
+}

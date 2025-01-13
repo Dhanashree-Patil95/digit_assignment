@@ -1,0 +1,112 @@
+serviceMaps:
+  serviceName: adv-services
+  mappings:
+    - version: 1.0
+      name: Advocates
+      description: Persists advocates details in the database
+      fromTopic: save-advocates
+      isTransaction: true
+      queryMaps:
+        # Insert Query - Advocates
+        - query: |
+            INSERT INTO advocates (
+              id, tenant_id, application_number, bar_registration_number, advocate_type, 
+              organisation_id, individual_id, is_active, created_by, last_modified_by, created_time, last_modified_time, additional_details
+            ) VALUES (CAST(? AS UUID), ?, ?, ?, ?, CAST(? AS UUID), ?, ?, ?, ?, ?, ?, ?)
+          basePath: advocates.*
+          jsonMaps:
+            - jsonPath: $.advocates.*.id
+              type: UUID
+              dbType: UUID
+            - jsonPath: $.advocates.*.tenantId
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.applicationNumber
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.barRegistrationNumber
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.advocateType
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.organisationId
+              type: UUID
+              dbType: UUID
+            - jsonPath: $.advocates.*.individualId
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.isActive
+              type: BOOLEAN
+              dbType: BOOLEAN
+            - jsonPath: $.advocates.*.auditDetails.createdBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.auditDetails.lastModifiedBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.auditDetails.createdTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.advocates.*.auditDetails.lastModifiedTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.advocates.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+
+        # Insert Query - Documents for Each Advocate
+        - query: |
+            INSERT INTO adv_documents (
+              id, file_store, document_type, document_uid, advocate_id, additional_details
+            ) VALUES (?, ?, ?, ?, CAST(? AS UUID), ?)
+          basePath: advocates.*.documents.*
+          jsonMaps:
+            - jsonPath: $.advocates.*.documents.*.id
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.documents.*.fileStore
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.documents.*.documentType
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.documents.*.documentUid
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates[*][?({id} in @.documents[*].id)].id
+              type: UUID
+              dbType: UUID
+            - jsonPath: $.advocates.*.documents.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+
+
+
+    - version: 1.0
+      name: Advocate Update
+      description: Updates advocates details in the database
+      fromTopic: update-advocates
+      isTransaction: true
+      queryMaps:
+        # update Query - Advocates
+        - query: |
+            UPDATE advocates SET
+              last_modified_by = COALESCE(?, last_modified_by),
+              last_modified_time = COALESCE(?, last_modified_time),
+              additional_details = COALESCE(?, additional_details)
+            WHERE application_number = ?;
+          basePath: advocates.*
+          jsonMaps:
+            - jsonPath: $.advocates.*.auditDetails.lastModifiedBy
+              type: STRING
+              dbType: VARCHAR
+            - jsonPath: $.advocates.*.auditDetails.lastModifiedTime
+              type: LONG
+              dbType: BIGINT
+            - jsonPath: $.advocates.*.additionalDetails
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.advocates.*.applicationNumber
+              type: STRING
+              dbType: VARCHAR

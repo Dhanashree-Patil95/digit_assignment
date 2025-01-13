@@ -1,0 +1,16 @@
+{
+  "tenantId": "mh",
+  "moduleName": "Advocate",
+  "UserType": [
+    {
+      "code": "PROSECUTOR",
+      "displayName": "Prosecutor",
+      "isactive": true
+    },
+    {
+      "code": "PUBLIC DEFENDER",
+      "displayName": "Public Defender",
+      "isactive": true
+    }
+  ]
+}

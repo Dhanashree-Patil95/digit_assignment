@@ -1,0 +1,73 @@
+{
+  "ACCESSCONTROL-ACTIONS-TEST": {
+    "actions-test": {
+      "masterName": "actions-test",
+      "isStateLevel": true,
+      "uniqueKeys": [
+        "$.id"
+      ]
+    }
+  },
+  "ACCESSCONTROL-ROLES": {
+    "roles": {
+      "masterName": "roles",
+      "isStateLevel": true,
+      "uniqueKeys": [
+        "$.code"
+      ]
+    }
+  },
+  "ACCESSCONTROL-ROLEACTIONS": {
+    "roleactions": {
+      "masterName": "roleactions",
+      "isStateLevel": true,
+      "uniqueKeys": [
+        "$.rolecode",
+        "$.actionid",
+        "$.tenantid"
+      ]
+    }
+  },
+  "tenant": {
+    "tenants": {
+      "masterName": "tenants",
+      "isStateLevel": true,
+      "moduleDefinition": null,
+      "uniqueKeys": [
+        "$.code"
+      ]
+    },
+    "citymodule": {
+      "masterName": "citymodule",
+      "isStateLevel": true,
+      "moduleDefinition": null,
+      "uniqueKeys": [
+        "$.code"
+      ]
+    }
+  },
+  "Advocate": {
+    "AdvocateType": {
+      "masterName": "AdvocateType",
+      "moduleDefinition": null,
+      "isStateLevel": true,
+      "uniqueKeys": [
+        "$.id",
+        "$.type"
+      ]
+    },
+    "UserType": {
+      "masterName": "UserType",
+      "moduleDefinition": null,
+      "isStateLevel": true,
+      "uniqueKeys": [
+        "$.code"
+      ]
+    }
+  }
+
+  }
+
+
+
+

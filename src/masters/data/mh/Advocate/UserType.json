@@ -1,0 +1,16 @@
+{
+  "tenantId": "mh",
+  "moduleName": "Advocate",
+  "UserType": [
+    {
+      "code": "ADVOCATE",
+      "displayName": "Advocate",
+      "isactive": true
+    },
+    {
+      "code": "ADVOCATE CLERK",
+      "displayName": "Advocate Clerk",
+      "isactive": true
+    }
+  ]
+}

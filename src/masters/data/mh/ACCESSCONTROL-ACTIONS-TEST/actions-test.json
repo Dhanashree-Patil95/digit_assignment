@@ -1,0 +1,80 @@
+{
+  "tenantId": "mh",
+  "moduleName": "ACCESSCONTROL-ACTIONS-TEST",
+  "actions-test": [
+    {
+      "id": 101,
+      "name": "CreateAdvocate",
+      "url": "/digit_assignment/advocate/v1/_create",
+      "displayName": "Create Advocate",
+      "orderNumber": 1,
+      "parentModule": "",
+      "enabled": true,
+      "serviceCode": "AD",
+      "code": "null",
+      "path": ""
+    },
+    {
+    "id": 102,
+    "name": "UpdateAdvocate",
+    "url": "/digit_assignment/advocate/v1/_search",
+    "displayName": "Update Advocate",
+    "orderNumber": 0,
+    "parentModule": "",
+    "enabled": true,
+    "serviceCode": "AD",
+    "code": "null",
+    "path": ""
+    },
+    {
+      "id": 103,
+      "name": "SearchAdvocate",
+      "url": "/digit_assignment/advocate/v1/_search",
+      "displayName": "search Advocate",
+      "orderNumber": 0,
+      "parentModule": "",
+      "enabled": true,
+      "serviceCode": "AD",
+      "code": "null",
+      "path": ""
+    },
+    {
+      "id": 104,
+      "name": "CreateAdvocateClerk",
+      "url": "/digit_assignment/clerk/v1/_create",
+      "displayName": "create Advocate-Clerk",
+      "orderNumber": 0,
+      "parentModule": "",
+      "enabled": true,
+      "serviceCode": "ADCL",
+      "code": "null",
+      "path": ""
+    },
+    {
+      "id": 105,
+      "name": "updateAdvocate",
+      "url": "/digit_assignment/clerk/v1/_update",
+      "displayName": "update Advocate-Clerk",
+      "orderNumber": 0,
+      "parentModule": "",
+      "enabled": true,
+      "serviceCode": "ADCL",
+      "code": "null",
+      "path": ""
+    },
+    {
+      "id": 106,
+      "name": "SearchAdvocate",
+      "url": "/digit_assignment/advocate/v1/_search",
+      "displayName": "search Advocate-Clerk",
+      "orderNumber": 0,
+      "parentModule": "",
+      "enabled": true,
+      "serviceCode": "ADCL",
+      "code": "null",
+      "path": ""
+    }
+
+
+  ]
+}

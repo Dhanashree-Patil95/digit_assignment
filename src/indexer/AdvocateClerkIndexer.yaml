@@ -1,0 +1,231 @@
+ServiceMaps:
+  serviceName: adv-services
+  version: 1.0.0
+  mappings:
+    - topic: save-advocate-clerk
+      configKey: INDEX
+      indexes:
+        - name: advclerk-index-v1
+          type: general
+          id: $.clerks.id
+          isBulk: false
+          timeStampField: $.clerks.auditDetails.createdTime
+          customJsonMapping:
+            indexMapping:
+              {
+                "Data":
+                  { "clerkDetails": {}, "history": {}, "auditDetails": {} },
+              }
+            fieldMapping:
+              - inJsonPath: $.clerks
+                outJsonPath: $.Data.clerkDetails
+              - inJsonPath: $.clerks.auditDetails.createdBy
+                outJsonPath: $.Data.auditDetails.createdBy
+              - inJsonPath: $.clerks.auditDetails.lastModifiedBy
+                outJsonPath: $.Data.auditDetails.lastModifiedBy
+              - inJsonPath: $.clerks.auditDetails.createdTime
+                outJsonPath: $.Data.auditDetails.createdTime
+              - inJsonPath: $.clerks.auditDetails.lastModifiedTime
+                outJsonPath: $.Data.auditDetails.lastModifiedTime
+            externalUriMapping:
+              - path: https://dev.digit.org/egov-workflow-v2/egov-wf/process/_search
+                queryParam: businessIds=$.clerks.applicationNumber,tenantId=$.clerks.tenantId,history=true
+                apiRequest:
+                  {
+                    "RequestInfo":
+                      {
+                        "apiId": "",
+                        "ver": "1.0",
+                        "ts": 1502890899493,
+                        "action": "asd",
+                        "did": "4354648646",
+                        "key": "xyz",
+                        "msgId": "654654",
+                        "requesterId": "61",
+                        "authToken": "d9994555-7656-4a67-ab3a-a952a0d4dfc8",
+                        "userInfo":
+                          {
+                            "id": 1,
+                            "uuid": "1fec8102-0e02-4d0a-b283-cd80d5dab067",
+                            "type": "EMPLOYEE",
+                            "tenantId": "mh",
+                            "roles":
+                              [
+                                {
+                                  "name": "Employee",
+                                  "code": "EMPLOYEE",
+                                  "tenantId": "mh",
+                                },
+                              ],
+                          },
+                      },
+                  }
+                uriResponseMapping:
+                  - inJsonPath: $.ProcessInstances
+                    outJsonPath: $.Data.history
+                  - inJsonPath: $.ProcessInstances[0]
+                    outJsonPath: $.Data.currentProcessInstance
+                  - inJsonPath: $.ProcessInstances[0].state.uuid
+                    outJsonPath: $.Data.status
+              - path: https://dev.digit.org/individual/v1/_search
+                queryParam: limit=1000,offset=0,tenantId=$.clerks.tenantId,includeDeleted=true
+                apiRequest:
+                  {
+                    "RequestInfo":
+                      {
+                        "authToken": "e87582e2-1ed6-4a0b-9bf5-57322015fd77",
+                        "userInfo":
+                          {
+                            "id": 198,
+                            "userName": "uatuser5004",
+                            "name": "Rama",
+                            "type": "EMPLOYEE",
+                            "mobileNumber": "7788995004",
+                            "roles":
+                              [
+                                {
+                                  "name": "Advocate",
+                                  "code": "ADVOCATE",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "Employee",
+                                  "code": "EMPLOYEE",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "Advocate Clerk",
+                                  "code": "ADVOCATE_CLERK",
+                                  "tenantId": "gj",
+                                },
+                                {
+                                  "name": "Nyay Mitra",
+                                  "code": "NYAY_MITRA",
+                                  "tenantId": "gj",
+                                },
+                                {
+                                  "name": "System",
+                                  "code": "SYSTEM",
+                                  "tenantId": "gj",
+                                }
+                              ],
+                            "tenantId": "mh",
+                            "uuid": "dede7c1e-886f-40ea-8218-04fed1d24ad6",
+                          },
+                      },
+                    "Individual": { "individualId": $.clerks.individualId },
+                  }
+                uriResponseMapping:
+                  - inJsonPath: $.Individual[0]
+                    outJsonPath: $.Data.individual
+
+    - topic: update-advocate-clerk
+      configKey: INDEX
+      indexes:
+        - name: adv-clerk-index-v1
+          type: general
+          id: $.clerks.id
+          isBulk: false
+          timeStampField: $.auditDetails.createdTime
+          customJsonMapping:
+            indexMapping:
+              {
+                "Data":
+                  { "clerkDetails": {}, "history": {}, "auditDetails": {} },
+              }
+            fieldMapping:
+              - inJsonPath: $.clerks
+                outJsonPath: $.Data.clerkDetails
+              - inJsonPath: $.clerk.auditDetails
+                outJsonPath: $.Data.auditDetails
+            externalUriMapping:
+              - path: https://dev.digit.org/egov-workflow-v2/egov-wf/process/_search
+                queryParam: businessIds=$.clerks.applicationNumber,tenantId=$.clerks.tenantId,history=true
+                apiRequest:
+                  {
+                    "RequestInfo":
+                      {
+                        "apiId": "",
+                        "ver": "1.0",
+                        "ts": 1502890899493,
+                        "action": "asd",
+                        "did": "4354648646",
+                        "key": "xyz",
+                        "msgId": "654654",
+                        "requesterId": "61",
+                        "authToken": "d9994555-7656-4a67-ab3a-a952a0d4dfc8",
+                        "userInfo":
+                          {
+                            "id": 1,
+                            "uuid": "1fec8102-0e02-4d0a-b283-cd80d5dab067",
+                            "type": "EMPLOYEE",
+                            "tenantId": "mh",
+                            "roles":
+                              [
+                                {
+                                  "name": "Employee",
+                                  "code": "EMPLOYEE",
+                                  "tenantId": "mh",
+                                },
+                              ],
+                          },
+                      },
+                  }
+                uriResponseMapping:
+                  - inJsonPath: $.ProcessInstances
+                    outJsonPath: $.Data.history
+                  - inJsonPath: $.ProcessInstances[0]
+                    outJsonPath: $.Data.currentProcessInstance
+                  - inJsonPath: $.ProcessInstances[0].state.uuid
+                    outJsonPath: $.Data.status
+              - path: https://dev.digit.org/individual/v1/_search
+                queryParam: limit=1000,offset=0,tenantId=$.clerks.tenantId,includeDeleted=true
+                apiRequest:
+                  {
+                    "RequestInfo":
+                      {
+                        "authToken": "e87582e2-1ed6-4a0b-9bf5-57322015fd77",
+                        "userInfo":
+                          {
+                            "id": 198,
+                            "userName": "uatuser5004",
+                            "name": "Rama",
+                            "type": "EMPLOYEE",
+                            "mobileNumber": "7788995004",
+                            "roles":
+                              [
+                                {
+                                  "name": "Advocate",
+                                  "code": "ADVOCATE",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "Employee",
+                                  "code": "EMPLOYEE",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "Advocate Clerk",
+                                  "code": "ADVOCATE_CLERK",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "Nyay Mitra",
+                                  "code": "NYAY_MITRA",
+                                  "tenantId": "mh",
+                                },
+                                {
+                                  "name": "System",
+                                  "code": "SYSTEM",
+                                  "tenantId": "mh",
+                                }
+                              ],
+                            "tenantId": "mh",
+                            "uuid": "dede7c1e-886f-40ea-8218-04fed1d24ad6",
+                          },
+                      },
+                    "Individual": { "individualId": $.clerks.individualId },
+                  }
+                uriResponseMapping:
+                  - inJsonPath: $.Individual[0]
+                    outJsonPath: $.Data.individual

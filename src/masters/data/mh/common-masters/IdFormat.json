@@ -1,0 +1,14 @@
+{
+  "tenantId": "mh",
+  "moduleName": "common-masters",
+  "IdFormat": [
+    {
+      "format": "ADVOC_[SEQ_ADV_REG_ID]_[YYYY]",
+      "idname": "adv.registrationid"
+    },
+    {
+      "format": "ADVOC_CLERK_[SEQ_ADV_REG_ID]_[YYYY]",
+      "idname": "advcl.registrationid"
+    }
+  ]
+}
